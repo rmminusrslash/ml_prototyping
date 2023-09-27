@@ -24,6 +24,7 @@ transformers = "4.21.1"
 protobuf = "3.20.1"
 numpy = "1.26.0"
 datasets = "^2.14.5"
+jarviscloud = "^0.1"
 
 
 [tool.poetry.group.dev.dependencies]

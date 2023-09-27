@@ -17,6 +17,7 @@ from nlp.kaggle_patents.metrics import Pearsonr
 
 @hydra.main(config_name="config.yaml")
 def simple_baseline(cfg: OmegaConf):
+    """simplified version of a training script with only the bare essentials"""
     df = pd.read_csv(f"{cfg.data.input_dir}/train.csv")
 
     if cfg.debug:
@@ -26,7 +27,6 @@ def simple_baseline(cfg: OmegaConf):
     df = data.create_folds(df)
 
     # load pretrained model
-
     tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
     model = BertForSequenceClassification.from_pretrained(
         "bert-base-uncased", num_labels=1
@@ -44,9 +44,9 @@ def simple_baseline(cfg: OmegaConf):
         lambda x: tokenize(x.input_text), axis=1, result_type="expand"
     )
 
+    # the model expects certain column names for input and output
     df.rename(columns={"score": "label"}, inplace=True)
     ds_train = Dataset.from_pandas(df[df.fold != 4])
-    print(ds_train[0])
     ds_val = Dataset.from_pandas(df[df.fold == 4])
 
     trainer_args = TrainingArguments(**cfg.bert)

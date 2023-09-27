@@ -10,9 +10,7 @@ class Pearsonr:
     """
 
     def __call__(self, eval_pred):
-        print(eval_pred)
         logits, labels = eval_pred
-        print(logits)
         predictions = logits.reshape(-1)
         score = stats.pearsonr(labels, predictions).statistic
         return {"pearsonr": score}

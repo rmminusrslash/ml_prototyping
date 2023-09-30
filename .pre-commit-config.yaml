@@ -1,0 +1,43 @@
+---
+repos:
+    - repo: https://github.com/asottile/seed-isort-config
+      rev: v2.2.0
+      hooks:
+          - id: seed-isort-config
+    - repo: https://github.com/pre-commit/mirrors-isort
+      rev: v5.10.1
+      hooks:
+          - id: isort
+            args: [--profile=black, --line-length=88]
+    - repo: https://github.com/ambv/black
+      rev: 23.9.1
+      hooks:
+          - id: black
+            language_version: python3.10
+            args: [--line-length=88]
+    - repo: https://github.com/PyCQA/flake8
+      rev: 6.1.0
+      hooks:
+          - id: flake8
+            exclude: output|data
+    - repo: https://github.com/nbQA-dev/nbQA
+      rev: 1.7.0
+      hooks:
+          - id: nbqa-black
+          - id: nbqa-pyupgrade
+            args: [--py36-plus]
+          - id: nbqa-isort
+            exclude: output|data
+          - id: nbqa-flake8
+    - repo: local
+      hooks:
+          - id: jupyter-nb-clear-output
+            name: jupyter-nb-clear-output
+            files: \.ipynb$
+            stages: [commit]
+            language: system
+            entry: jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace
+    - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+      rev: 0.2.3 # or specific tags
+      hooks:
+          - id: yamlfmt
